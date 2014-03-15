@@ -2,7 +2,7 @@
 " Filename: plugin/unite-changetime.vim
 " Author: itchyny
 " License: MIT License
-" Last Change: 2013/10/30 20:34:50.
+" Last Change: 2014/03/16 00:02:15.
 " =============================================================================
 
 if exists('g:loaded_unite_changetime')
@@ -52,9 +52,7 @@ function! s:unite_changetime.func(candidate)
   endtry
 endfunction
 
-if exists('*unite#custom_action')
-  call unite#custom_action('file', 'unite_changetime', s:unite_changetime)
-endif
+call unite#custom_action('file', 'change_time', s:unite_changetime)
 
 let g:unite_changetime = s:unite_changetime
 

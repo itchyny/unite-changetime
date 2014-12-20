@@ -2,12 +2,13 @@
 " Filename: plugin/unite-changetime.vim
 " Author: itchyny
 " License: MIT License
-" Last Change: 2014/03/16 00:02:15.
+" Last Change: 2014/12/14 00:53:55.
 " =============================================================================
 
 if exists('g:loaded_unite_changetime')
   finish
 endif
+let g:loaded_unite_changetime = 1
 
 let s:save_cpo = &cpo
 set cpo&vim
@@ -55,8 +56,6 @@ endfunction
 call unite#custom_action('file', 'change_time', s:unite_changetime)
 
 let g:unite_changetime = s:unite_changetime
-
-let g:loaded_unite_changetime = 1
 
 let &cpo = s:save_cpo
 unlet s:save_cpo

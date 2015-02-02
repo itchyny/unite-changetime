@@ -2,7 +2,7 @@
 " Filename: plugin/unite-changetime.vim
 " Author: itchyny
 " License: MIT License
-" Last Change: 2014/12/14 00:53:55.
+" Last Change: 2015/02/01 23:49:01.
 " =============================================================================
 
 if exists('g:loaded_unite_changetime')
@@ -21,11 +21,11 @@ let s:unite_changetime = {
 function! s:unite_changetime.func(candidate)
   let filepath = a:candidate.action__path
   let vimfiler_current_dir = get(unite#get_context(), 'vimfiler__current_directory', '')
-  if vimfiler_current_dir == ''
+  if vimfiler_current_dir ==# ''
     let vimfiler_current_dir = getcwd()
   endif
   let current_dir = getcwd()
-  if system('stat -l . > /dev/null 2>&1; echo $?') =~ '^0'
+  if system('stat -l . > /dev/null 2>&1; echo $?') =~# '^0'
     let atime = system('stat -lt "%Y/%m/%d %H:%M" "'.filepath
           \."\" | awk {'print $6\" \"$7'} | tr -d '\\n'")
   else
@@ -36,7 +36,7 @@ function! s:unite_changetime.func(candidate)
     silent! lcd `=vimfiler_current_dir`
     let newtime = input(printf('New time: %s -> ', atime))
     " redraw
-    if newtime == ''
+    if newtime ==# ''
       let newtime = atime
     endif
     let newtime = substitute(newtime, '\d\@<!\(\d\)$', '0\1', '')

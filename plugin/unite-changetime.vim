@@ -2,10 +2,10 @@
 " Filename: plugin/unite-changetime.vim
 " Author: itchyny
 " License: MIT License
-" Last Change: 2015/02/01 23:49:01.
+" Last Change: 2015/02/15 09:08:36.
 " =============================================================================
 
-if exists('g:loaded_unite_changetime')
+if exists('g:loaded_unite_changetime') || v:version < 703
   finish
 endif
 let g:loaded_unite_changetime = 1

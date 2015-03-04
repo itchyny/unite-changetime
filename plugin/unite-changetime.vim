@@ -2,7 +2,7 @@
 " Filename: plugin/unite-changetime.vim
 " Author: itchyny
 " License: MIT License
-" Last Change: 2015/02/15 09:08:36.
+" Last Change: 2015/02/24 02:02:55.
 " =============================================================================
 
 if exists('g:loaded_unite_changetime') || v:version < 703
@@ -38,6 +38,32 @@ function! s:unite_changetime.func(candidate)
     " redraw
     if newtime ==# ''
       let newtime = atime
+    endif
+    let matcher = '\a\{3,}[ .,]\+\d\+[ .,]\+\d\+\|\%(\d\+[ .,]\+\)\?\a\{3,}[ .,]\+\d\+'
+    if newtime =~# matcher
+      let ymd = split(matchstr(newtime, matcher), '[ ,]\+')
+      let m = tolower(ymd[0] =~# '\a\{3,}' ? ymd[0] : ymd[1])
+      let day = 0 + (len(ymd) == 3 ? (ymd[0] =~# '\d\+' ? ymd[0] : ymd[1]) : 1)
+      let months = [ 'jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec' ]
+      let months_long = [ 'january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december' ]
+      let month = 1 + max([index(months, m), index(months_long, m)])
+      let year = 0 + (len(ymd) == 3 ? ymd[2] : ymd[1])
+      if day > 1000 && year < 32
+        let [day, year] = [year, day]
+      endif
+      if year < 1000 || day > 31 || month < 1 || month > 12
+        let newtime = atime
+      endif
+      let newtime = join([ year, month, day ], ' ')
+    endif
+    if newtime =~# '^\s*\d\d\d\d\s*$'
+      let newtime .= ' 1'
+    endif
+    if newtime =~# '^\s*\d\d\?\s\+\d\d\d\d\s*$'
+      let newtime = matchstr(newtime, '\d\d\d\d') . ' ' . matchstr(newtime, '^\s*\d*')
+    endif
+    if newtime =~# '^\s*\d\d\d\d\s\+\d\d\?\s*$'
+      let newtime .= ' 1'
     endif
     let newtime = substitute(newtime, '\d\@<!\(\d\)$', '0\1', '')
     let newtime = substitute(newtime, '\d\@<!\(\d\)\d\@!', '0\1', 'g')

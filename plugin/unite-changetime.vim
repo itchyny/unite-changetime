@@ -2,7 +2,7 @@
 " Filename: plugin/unite-changetime.vim
 " Author: itchyny
 " License: MIT License
-" Last Change: 2024/06/16 21:33:33.
+" Last Change: 2025/04/19 11:05:15.
 " =============================================================================
 
 if exists('g:loaded_unite_changetime') || !has('patch-8.2.1794')
@@ -39,7 +39,7 @@ function! s:unite_changetime.func(candidate)
   endif
   let date_time_str = strftime('%FT%T', new_value)
   let [&shellredir, save_shellredir] = ['>%s 2>&1', &shellredir]
-  let lines = systemlist(printf('touch -ad %s -md %s %s',
+  let lines = systemlist(printf('touch -h -ad %s -md %s %s',
         \ date_time_str, date_time_str, shellescape(filepath)))
   let &shellredir = save_shellredir
   if v:shell_error
